@@ -10,7 +10,7 @@ app.use(router);
 
 
 app.listen(4000, () => {
-    ("Aplicaçao ok");
+    console.log("Aplicaçao ok");
 })
 
 app.get("/", (request, response) => {
