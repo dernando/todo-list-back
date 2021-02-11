@@ -15,6 +15,26 @@ class TaskController {
         })
 
     }
+
+    listTasks(request, response){
+        database.select("*").table("tasks").then(tasks=>{
+            console.log(tasks);
+            response.json(tasks);
+        }).catch(error=>{
+            console.log(error);
+        })
+    }
+
+    listTaskById(request, response){
+        const id = request.params.id;
+        console.log('id', id);
+        database.select("*").table("tasks").where({id:id}).then(task=>{
+            task = task && task.length ? task.reduce(item => item) : {}
+            response.json(task);
+        }).catch(error=>{
+            console.log(error);
+        })
+    }
 }
 
 module.exports = new TaskController();
