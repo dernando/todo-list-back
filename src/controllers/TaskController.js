@@ -18,9 +18,15 @@ class TaskController {
 
     updateTask(request, response){
         const id = request.params.id;
-        ('id', id);
-        const {description, email, owner, status} = request.body;
-        const values = {description: description, email: email, owner: owner, status: status}
+        const {description, email, owner, status, restartedTimes} = request.body;
+        const values = 
+            {
+                description: description, 
+                email: email, 
+                owner: owner, 
+                status: status, 
+                restartedTimes: restartedTimes
+            }
 
         database.table("tasks").where({id:id}).update(values).then(task=>{
             response.json({message:"Task successfully updated!"});
@@ -28,7 +34,7 @@ class TaskController {
             (error);
         })
     }
-
+    
     listTasks(request, response){
         database.select("*").table("tasks").then(tasks=>{
             (tasks);
