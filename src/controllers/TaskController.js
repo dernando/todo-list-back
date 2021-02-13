@@ -8,8 +8,7 @@ class TaskController {
         const {description, email, owner, status} = request.body;
 
         database.insert({description, email, owner, status}).table(table).then(data=>{
-            (data);
-            response.json({message:"Task successfully created!"});
+            response.json({message:"Task successfully created!", id: data[0]});
         }).catch(error => {
             (error);
         })
@@ -21,7 +20,6 @@ class TaskController {
         const tasks = request.body.map(item => item);
 
         database.insert(tasks).table(table).then(data=>{
-            (data);
             response.json({message:"Task successfully created!"});
         }).catch(error => {
             (error);
