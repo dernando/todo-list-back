@@ -1,13 +1,27 @@
 const database = require("../database/connection");
 
 class TaskController {
+
+    table="tasks";
+
     newTask(request, response) {
 
         const {description, email, owner, status} = request.body;
 
-        (description, email, owner, status);
+        database.insert({description, email, owner, status}).table(this.table).then(data=>{
+            (data);
+            response.json({message:"Task successfully created!"});
+        }).catch(error => {
+            (error);
+        })
 
-        database.insert({description, email, owner, status}).table("tasks").then(data=>{
+    }
+
+    newTasks(request, response) {
+
+        const tasks = request.body.map(item => item);
+
+        database.insert(tasks).table(this.table).then(data=>{
             (data);
             response.json({message:"Task successfully created!"});
         }).catch(error => {
@@ -28,7 +42,7 @@ class TaskController {
                 restartedTimes: restartedTimes
             }
 
-        database.table("tasks").where({id:id}).update(values).then(task=>{
+        database.table(this.table).where({id:id}).update(values).then(task=>{
             response.json({message:"Task successfully updated!"});
         }).catch(error=>{
             (error);
@@ -36,8 +50,7 @@ class TaskController {
     }
     
     listTasks(request, response){
-        database.select("*").table("tasks").then(tasks=>{
-            (tasks);
+        database.select("*").table(this.table).then(tasks=>{
             response.json(tasks);
         }).catch(error=>{
             (error);
@@ -46,8 +59,8 @@ class TaskController {
 
     listTaskById(request, response){
         const id = request.params.id;
-        ('id', id);
-        database.select("*").table("tasks").where({id:id}).then(task=>{
+
+        database.select("*").table(this.table).where({id:id}).then(task=>{
             task = task && task.length ? task.reduce(item => item) : {}
             response.json(task);
         }).catch(error=>{
