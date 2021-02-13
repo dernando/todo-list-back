@@ -1,14 +1,13 @@
 const database = require("../database/connection");
+table="tasks";
 
 class TaskController {
-
-    table="tasks";
 
     newTask(request, response) {
 
         const {description, email, owner, status} = request.body;
 
-        database.insert({description, email, owner, status}).table(this.table).then(data=>{
+        database.insert({description, email, owner, status}).table(table).then(data=>{
             (data);
             response.json({message:"Task successfully created!"});
         }).catch(error => {
@@ -21,7 +20,7 @@ class TaskController {
 
         const tasks = request.body.map(item => item);
 
-        database.insert(tasks).table(this.table).then(data=>{
+        database.insert(tasks).table(table).then(data=>{
             (data);
             response.json({message:"Task successfully created!"});
         }).catch(error => {
@@ -42,7 +41,7 @@ class TaskController {
                 restartedTimes: restartedTimes
             }
 
-        database.table(this.table).where({id:id}).update(values).then(task=>{
+        database.table(table).where({id:id}).update(values).then(task=>{
             response.json({message:"Task successfully updated!"});
         }).catch(error=>{
             (error);
@@ -50,7 +49,7 @@ class TaskController {
     }
     
     listTasks(request, response){
-        database.select("*").table(this.table).then(tasks=>{
+        database.select("*").table(table).then(tasks=>{
             response.json(tasks);
         }).catch(error=>{
             (error);
